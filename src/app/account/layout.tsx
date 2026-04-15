@@ -9,7 +9,10 @@ const ACCOUNT_NAV = [
 
 export default function AccountLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '4rem 5rem', display: 'grid', gridTemplateColumns: '220px 1fr', gap: '5rem' }}>
+    <div
+      className="mob-t-1col mob-pad mob-sm-pad"
+      style={{ maxWidth: '1200px', margin: '0 auto', padding: '4rem 5rem', display: 'grid', gridTemplateColumns: '220px 1fr', gap: '5rem' }}
+    >
       {/* Sidebar */}
       <nav>
         <p className="type-label" style={{ color: '#777', marginBottom: '2rem' }}>My Account</p>

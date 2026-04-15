@@ -30,8 +30,8 @@ const FAQ = [
 
 export default function SupportPage() {
   return (
-    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '6rem 5rem' }}>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8rem', alignItems: 'start' }}>
+    <div className="mob-pad mob-sm-pad" style={{ maxWidth: '1200px', margin: '0 auto', padding: '6rem 5rem' }}>
+      <div className="mob-t-1col" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8rem', alignItems: 'start' }}>
         {/* Left */}
         <div>
           <h1

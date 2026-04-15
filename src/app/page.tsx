@@ -17,21 +17,9 @@ export default function HomePage() {
       <EmailSubscribeModal />
 
       {/* Hero */}
-      <section
-        style={{
-          height: 'calc(100vh - 64px)',
-          backgroundColor: '#000',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'flex-start',
-          justifyContent: 'flex-end',
-          padding: '5rem',
-          position: 'relative',
-          overflow: 'hidden',
-        }}
-      >
+      <section className="relative h-[calc(100vh-64px)] bg-black flex flex-col items-start justify-end overflow-hidden px-20 py-20 max-md:px-10 max-sm:px-6 max-sm:py-12">
         {/* Background video */}
-        <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}>
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <iframe
             src={`https://www.youtube-nocookie.com/embed/${HERO_VIDEO_ID}?autoplay=1&mute=1&loop=1&playlist=${HERO_VIDEO_ID}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&disablekb=1`}
             allow="autoplay; encrypted-media"
@@ -40,9 +28,9 @@ export default function HomePage() {
               top: '50%',
               left: '50%',
               width: '100vw',
-              height: '56.25vw',   /* 16:9 — grows with viewport width */
+              height: '56.25vw',
               minHeight: '100%',
-              minWidth: '177.78vh', /* 16:9 — fills when viewport is tall */
+              minWidth: '177.78vh',
               transform: 'translate(-50%, -50%)',
               border: 'none',
               opacity: 0.65,
@@ -50,24 +38,20 @@ export default function HomePage() {
             title="JON Campaign"
           />
         </div>
-        {/* Dark overlay for text legibility */}
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.2) 60%, transparent 100%)' }} />
+        {/* Dark overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
-        <div style={{ position: 'relative', zIndex: 1, maxWidth: '800px' }}>
-          <p className="type-label" style={{ color: '#777', marginBottom: '1.5rem' }}>
+        <div className="relative z-[1] max-w-[800px]">
+          <p className="type-label text-outline mb-6">
             SS25 Collection — Just One Nation
           </p>
           <h1
-            className="type-display"
-            style={{
-              color: '#fff',
-              marginBottom: '2.5rem',
-              fontSize: 'clamp(3rem, 8vw, 6rem)',
-            }}
+            className="type-display text-white mb-10"
+            style={{ fontSize: 'clamp(3rem, 8vw, 6rem)' }}
           >
             Built for those<br />who move with intent.
           </h1>
-          <div style={{ display: 'flex', gap: '1rem' }}>
+          <div className="flex gap-4 flex-wrap">
             <Link href="/products" className="btn-primary">
               Shop Now
             </Link>
@@ -83,105 +67,61 @@ export default function HomePage() {
       </section>
 
       {/* Category strip */}
-      <section style={{ padding: '6rem 5rem', backgroundColor: '#f9f9f9' }}>
-        <p className="type-label" style={{ color: '#777', marginBottom: '3rem' }}>
+      <section className="py-24 px-20 bg-surface max-md:px-10 max-sm:px-6">
+        <p className="type-label text-outline mb-12">
           Shop by Category
         </p>
         <CategoryGrid />
       </section>
 
       {/* Featured / New Arrivals */}
-      <section style={{ padding: '6rem 5rem', backgroundColor: '#f3f3f3' }}>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'baseline',
-            marginBottom: '3rem',
-          }}
-        >
+      <section className="py-24 px-20 bg-surface-low max-md:px-10 max-sm:px-6">
+        <div className="flex justify-between items-baseline mb-12">
           <h2 className="type-headline">New Arrivals</h2>
           <Link
             href="/products?collection=new"
-            className="type-label"
-            style={{
-              color: '#1b1b1b',
-              textDecoration: 'none',
-              borderBottom: '2px solid #000',
-              paddingBottom: '2px',
-            }}
+            className="type-label text-on-surface no-underline border-b-2 border-black pb-[2px]"
           >
             View All
           </Link>
         </div>
-        {/* Placeholder grid — wire to storefrontFetch(GET_PRODUCTS) when Shopify is connected */}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
-            gap: '1.5rem',
-          }}
-        >
+        <div className="grid grid-cols-4 gap-6 max-md:grid-cols-2">
           {(['/mocks/apparel-1.png', '/mocks/apparel-2.png', '/mocks/apparel-3.png', '/mocks/apparel-4.png']).map((src, i) => (
-            <div key={i} style={{ position: 'relative', aspectRatio: '3/4', backgroundColor: '#e8e8e8' }}>
-              <Image src={src} alt="New Arrival" fill style={{ objectFit: 'cover' }} />
+            <div key={i} className="relative aspect-[3/4] bg-surface-high">
+              <Image src={src} alt="New Arrival" fill className="object-cover" />
             </div>
           ))}
         </div>
       </section>
 
       {/* Editorial band */}
-      <section
-        style={{
-          padding: '8rem 5rem',
-          backgroundColor: '#000',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          gap: '4rem',
-        }}
-      >
+      <section className="py-32 px-20 bg-black flex justify-between items-center gap-16 max-md:flex-col max-md:px-10 max-sm:px-6">
         <h2
-          className="type-display"
-          style={{
-            color: '#fff',
-            maxWidth: '600px',
-            fontSize: 'clamp(2.5rem, 5vw, 4.5rem)',
-            margin: 0,
-          }}
+          className="type-display text-white max-w-[600px] m-0"
+          style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)' }}
         >
           One nation.<br />One standard.
         </h2>
         <Link
           href="/products"
-          className="btn-primary"
-          style={{ flexShrink: 0, minWidth: '200px', textAlign: 'center' }}
+          className="btn-primary flex-shrink-0 min-w-[200px] text-center"
         >
           Explore All
         </Link>
       </section>
 
       {/* Trust bar */}
-      <section
-        style={{
-          padding: '4rem 5rem',
-          backgroundColor: '#f9f9f9',
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: '2rem',
-          textAlign: 'center',
-        }}
-      >
+      <section className="py-16 px-20 bg-surface grid grid-cols-3 gap-8 text-center max-md:grid-cols-1 max-md:text-left max-md:px-10 max-sm:px-6">
         {[
           { label: 'Free Shipping', detail: 'On orders over Rp 500.000' },
           { label: 'Easy Returns', detail: '14-day hassle-free returns' },
           { label: 'Local Support', detail: 'WhatsApp & email support' },
         ].map((item) => (
           <div key={item.label}>
-            <p className="type-label" style={{ marginBottom: '0.5rem' }}>
+            <p className="type-label mb-2">
               {item.label}
             </p>
-            <p style={{ color: '#474747', fontSize: '0.875rem', margin: 0 }}>
+            <p className="text-on-surface-variant text-sm m-0">
               {item.detail}
             </p>
           </div>

@@ -10,12 +10,12 @@ export default function CartPage() {
   // Cart state lives in Zustand (client-side) — this is a server page shell
   // CartContent is a client component that reads from the store
   return (
-    <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '4rem 5rem' }}>
+    <div className="mob-pad mob-sm-pad" style={{ maxWidth: '1440px', margin: '0 auto', padding: '4rem 5rem' }}>
       <h1 className="type-headline" style={{ marginBottom: '3rem' }}>
         Your Cart
       </h1>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 400px', gap: '5rem' }}>
+      <div className="mob-t-1col" style={{ display: 'grid', gridTemplateColumns: '1fr 400px', gap: '5rem' }}>
         {/* Line items */}
         <div>
           {/* Empty state */}

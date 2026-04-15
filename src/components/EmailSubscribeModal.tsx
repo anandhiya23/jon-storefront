@@ -17,75 +17,30 @@ export default function EmailSubscribeModal() {
 
   return (
     <div
-      className="jon-overlay"
+      className="jon-overlay fixed inset-0 z-[200] bg-black/[0.72] flex items-center justify-center p-6"
       onClick={() => setVisible(false)}
-      style={{
-        position: 'fixed',
-        inset: 0,
-        zIndex: 200,
-        backgroundColor: 'rgba(0,0,0,0.72)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '1.5rem',
-      }}
     >
       <div
-        className="jon-modal"
+        className="jon-modal grid grid-cols-2 w-full max-w-[820px] max-h-[90vh] overflow-hidden max-sm:grid-cols-1"
         onClick={(e) => e.stopPropagation()}
-        style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          width: '100%',
-          maxWidth: '820px',
-          maxHeight: '90vh',
-          overflow: 'hidden',
-        }}
       >
         {/* Left — editorial image panel */}
-        <div
-          style={{
-            position: 'relative',
-            minHeight: '520px',
-            backgroundColor: '#000',
-            overflow: 'hidden',
-          }}
-        >
+        <div className="relative min-h-[520px] bg-black overflow-hidden max-sm:hidden">
           <Image
             src="/mocks/apparel-2.png"
             alt=""
             fill
-            style={{ objectFit: 'cover', opacity: 0.55 }}
+            className="object-cover opacity-[0.55]"
           />
           {/* Gradient overlay */}
-          <div
-            style={{
-              position: 'absolute',
-              inset: 0,
-              background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.1) 60%)',
-            }}
-          />
-          <div
-            style={{
-              position: 'absolute',
-              inset: 0,
-              padding: '3rem',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'flex-end',
-            }}
-          >
-            <p className="type-label" style={{ color: '#777', marginBottom: '1.25rem' }}>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/85 to-black/10" />
+          <div className="absolute inset-0 p-12 flex flex-col justify-end">
+            <p className="type-label text-outline mb-5">
               SS25 — Just One Nation
             </p>
             <h2
-              className="type-display"
-              style={{
-                color: '#fff',
-                fontSize: 'clamp(2.25rem, 3.5vw, 3rem)',
-                margin: 0,
-                lineHeight: 1,
-              }}
+              className="type-display text-white m-0 leading-none"
+              style={{ fontSize: 'clamp(2.25rem, 3.5vw, 3rem)' }}
             >
               Join<br />the<br />Nation.
             </h2>
@@ -93,33 +48,12 @@ export default function EmailSubscribeModal() {
         </div>
 
         {/* Right — form panel */}
-        <div
-          style={{
-            backgroundColor: '#f9f9f9',
-            padding: '3.5rem 3rem',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            position: 'relative',
-          }}
-        >
+        <div className="bg-surface px-12 py-14 flex flex-col justify-center relative">
           {/* Close */}
           <button
             onClick={() => setVisible(false)}
             aria-label="Close"
-            style={{
-              position: 'absolute',
-              top: '1.25rem',
-              right: '1.25rem',
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              color: '#777',
-              fontSize: '1.5rem',
-              lineHeight: 1,
-              padding: '0.25rem 0.5rem',
-              transition: 'color 0.15s ease',
-            }}
+            className="absolute top-5 right-5 bg-transparent border-none cursor-pointer text-outline text-2xl leading-none px-2 py-1 transition-colors duration-150"
             onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = '#000')}
             onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = '#777')}
           >
@@ -129,22 +63,18 @@ export default function EmailSubscribeModal() {
           {submitted ? (
             /* Success state */
             <div>
-              <p className="type-label" style={{ color: '#777', marginBottom: '1.5rem' }}>
+              <p className="type-label text-outline mb-6">
                 You&apos;re in.
               </p>
-              <h3
-                className="type-headline"
-                style={{ marginBottom: '1rem', fontSize: '1.75rem' }}
-              >
+              <h3 className="type-headline mb-4 text-[1.75rem]">
                 Welcome to JON.
               </h3>
-              <p style={{ fontSize: '0.875rem', color: '#474747', lineHeight: 1.8, margin: 0 }}>
+              <p className="text-sm text-on-surface-variant leading-[1.8] m-0">
                 Expect early access, exclusive drops, and stories from the field — straight to your inbox.
               </p>
               <button
                 onClick={() => setVisible(false)}
-                className="btn-primary"
-                style={{ marginTop: '2.5rem', width: '100%' }}
+                className="btn-primary mt-10 w-full"
               >
                 Continue Shopping
               </button>
@@ -152,23 +82,13 @@ export default function EmailSubscribeModal() {
           ) : (
             /* Subscribe form */
             <>
-              <p className="type-label" style={{ color: '#777', marginBottom: '2rem' }}>
+              <p className="type-label text-outline mb-8">
                 Mailing List
               </p>
-              <h3
-                className="type-headline"
-                style={{ marginBottom: '1rem', fontSize: '1.5rem', lineHeight: 1.2 }}
-              >
+              <h3 className="type-headline mb-4 text-[1.5rem] leading-tight">
                 Early access.<br />Exclusive drops.
               </h3>
-              <p
-                style={{
-                  fontSize: '0.875rem',
-                  color: '#474747',
-                  lineHeight: 1.8,
-                  marginBottom: '2.5rem',
-                }}
-              >
+              <p className="text-sm text-on-surface-variant leading-[1.8] mb-10">
                 Be first to know about new collections, limited releases, and insider stories from JON.
               </p>
 
@@ -177,36 +97,24 @@ export default function EmailSubscribeModal() {
                   e.preventDefault()
                   setSubmitted(true)
                 }}
-                style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}
+                className="flex flex-col gap-7"
               >
                 <input
-                  className="input-line"
+                  className="input-line text-base"
                   type="email"
                   placeholder="your@email.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  style={{ fontSize: '1rem' }}
                 />
-                <button type="submit" className="btn-primary" style={{ width: '100%' }}>
+                <button type="submit" className="btn-primary w-full">
                   Subscribe
                 </button>
               </form>
 
               <button
                 onClick={() => setVisible(false)}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  marginTop: '1.25rem',
-                  fontSize: '0.7rem',
-                  letterSpacing: '0.1em',
-                  textTransform: 'uppercase',
-                  color: '#aaa',
-                  padding: 0,
-                  transition: 'color 0.15s ease',
-                }}
+                className="bg-transparent border-none cursor-pointer mt-5 text-[0.7rem] tracking-[0.1em] uppercase text-[#aaa] p-0 transition-colors duration-150"
                 onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = '#474747')}
                 onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = '#aaa')}
               >

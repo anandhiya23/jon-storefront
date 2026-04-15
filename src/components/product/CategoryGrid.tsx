@@ -12,30 +12,15 @@ const CATEGORIES = [
 
 export default function CategoryGrid() {
   return (
-    <div
-      style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(4, 1fr)',
-        gap: '1rem',
-      }}
-    >
+    <div className="grid grid-cols-4 gap-4 max-md:grid-cols-2">
       {CATEGORIES.map((cat) => (
         <Link
           key={cat.label}
           href={`/products?collection=${cat.label.toLowerCase()}`}
-          style={{ textDecoration: 'none' }}
+          className="no-underline"
         >
           <div
-            style={{
-              position: 'relative',
-              aspectRatio: '3/4',
-              backgroundColor: '#e8e8e8',
-              display: 'flex',
-              alignItems: 'flex-end',
-              padding: '1.5rem',
-              transition: 'transform 0.2s ease',
-              overflow: 'hidden',
-            }}
+            className="relative aspect-[3/4] bg-surface-high flex items-end p-6 transition-transform duration-200 ease-out overflow-hidden"
             onMouseEnter={(e) =>
               ((e.currentTarget as HTMLElement).style.transform = 'translateY(-4px)')
             }
@@ -47,11 +32,11 @@ export default function CategoryGrid() {
               src={cat.image}
               alt={cat.label}
               fill
-              style={{ objectFit: 'cover', opacity: 0.6 }}
+              className="object-cover opacity-60"
             />
             <h2
-              className="type-headline"
-              style={{ position: 'relative', zIndex: 1, color: '#fff', fontSize: '1.25rem', margin: 0, textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}
+              className="type-headline relative z-10 text-white text-[1.25rem] m-0"
+              style={{ textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}
             >
               {cat.label}
             </h2>

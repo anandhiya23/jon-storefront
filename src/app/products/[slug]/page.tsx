@@ -20,90 +20,58 @@ export default async function ProductDetailPage({ params }: Props) {
   // TODO: const product = await storefrontFetch(GET_PRODUCT_BY_HANDLE, { handle: slug })
 
   return (
-    <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '4rem 5rem' }}>
+    <div className="max-w-[1440px] mx-auto py-16 px-20 max-md:px-10 max-sm:px-6">
       {/* Breadcrumb */}
-      <nav style={{ marginBottom: '3rem' }}>
-        <span className="type-label" style={{ color: '#777' }}>
-          <Link href="/products" style={{ color: '#777', textDecoration: 'none' }}>Shop</Link>
+      <nav className="mb-12">
+        <span className="type-label text-outline">
+          <Link href="/products" className="text-outline no-underline">Shop</Link>
           {' / '}
-          <span style={{ color: '#1b1b1b' }}>{slug}</span>
+          <span className="text-on-surface">{slug}</span>
         </span>
       </nav>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6rem' }}>
+      <div className="grid grid-cols-2 gap-24 max-md:grid-cols-1">
         {/* Image gallery */}
         <div>
-          <div style={{ position: 'relative', aspectRatio: '3/4', backgroundColor: '#e8e8e8', marginBottom: '1rem', overflow: 'hidden' }}>
-            <Image src="/mocks/apparel-1.png" alt="Product" fill style={{ objectFit: 'cover' }} priority />
+          <div className="relative aspect-[3/4] bg-surface-high mb-4 overflow-hidden">
+            <Image src="/mocks/apparel-1.png" alt="Product" fill className="object-cover" priority />
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.5rem' }}>
+          <div className="grid grid-cols-4 gap-2 max-md:grid-cols-2">
             {['/mocks/apparel-1.png', '/mocks/apparel-2.png', '/mocks/apparel-3.png', '/mocks/apparel-4.png'].map((src, i) => (
-              <div key={i} style={{ position: 'relative', aspectRatio: '1/1', backgroundColor: '#f3f3f3', cursor: 'pointer', overflow: 'hidden' }}>
-                <Image src={src} alt={`View ${i + 1}`} fill style={{ objectFit: 'cover' }} />
+              <div key={i} className="relative aspect-square bg-surface-low cursor-pointer overflow-hidden">
+                <Image src={src} alt={`View ${i + 1}`} fill className="object-cover" />
               </div>
             ))}
           </div>
         </div>
 
         {/* Product info */}
-        <div style={{ paddingTop: '1rem' }}>
-          <p className="type-label" style={{ color: '#777', marginBottom: '0.75rem' }}>JON / SS25</p>
+        <div className="pt-4">
+          <p className="type-label text-outline mb-3">JON / SS25</p>
 
-          <h1 className="type-headline" style={{ marginBottom: '1rem' }}>
+          <h1 className="type-headline mb-4">
             Product Name
           </h1>
 
-          <p
-            style={{
-              fontSize: '1.5rem',
-              fontWeight: 700,
-              marginBottom: '2.5rem',
-            }}
-          >
+          <p className="text-2xl font-bold mb-10">
             Rp 599.000
           </p>
 
           {/* Size selector */}
-          <div style={{ marginBottom: '2rem' }}>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                marginBottom: '1rem',
-              }}
-            >
+          <div className="mb-8">
+            <div className="flex justify-between mb-4">
               <span className="type-label">Size</span>
               <button
-                className="type-label"
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  borderBottom: '1px solid #777',
-                  padding: 0,
-                  color: '#474747',
-                }}
+                className="type-label bg-transparent border-none border-b border-outline cursor-pointer p-0 text-on-surface-variant"
               >
                 Size Guide
               </button>
             </div>
-            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+            <div className="flex gap-2 flex-wrap">
               {['XS', 'S', 'M', 'L', 'XL', 'XXL'].map((size) => (
                 <button
                   key={size}
-                  style={{
-                    width: '52px',
-                    height: '52px',
-                    border: '1px solid #c6c6c6',
-                    borderRadius: 0,
-                    background: 'transparent',
-                    fontFamily: 'inherit',
-                    fontSize: '0.75rem',
-                    fontWeight: 600,
-                    letterSpacing: '0.05em',
-                    cursor: 'pointer',
-                    transition: 'all 0.15s ease',
-                  }}
+                  className="w-[52px] h-[52px] border border-outline-variant rounded-none bg-transparent font-[inherit] text-[0.75rem] font-semibold tracking-[0.05em] cursor-pointer transition-all duration-150"
                   onMouseEnter={(e) => {
                     const el = e.currentTarget
                     el.style.background = '#000'
@@ -124,18 +92,18 @@ export default async function ProductDetailPage({ params }: Props) {
           </div>
 
           {/* CTA */}
-          <button className="btn-primary" style={{ width: '100%', marginBottom: '1rem' }}>
+          <button className="btn-primary w-full mb-4">
             Add to Cart
           </button>
 
-          <p style={{ fontSize: '0.875rem', color: '#474747', lineHeight: 1.7 }}>
+          <p className="text-sm text-on-surface-variant leading-[1.7]">
             Free shipping on orders over Rp 500.000. Easy 14-day returns.
           </p>
 
           {/* Description */}
-          <div style={{ marginTop: '3rem', borderTop: '1px solid #e8e8e8', paddingTop: '2rem' }}>
-            <p className="type-label" style={{ marginBottom: '1rem' }}>Description</p>
-            <p style={{ fontSize: '0.9375rem', lineHeight: 1.8, color: '#474747' }}>
+          <div className="mt-12 border-t border-surface-high pt-8">
+            <p className="type-label mb-4">Description</p>
+            <p className="text-[0.9375rem] leading-[1.8] text-on-surface-variant">
               {/* TODO: product.description */}
               Premium sport apparel engineered for performance and precision.
               Built with technical fabrics that move with you.

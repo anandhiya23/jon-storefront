@@ -10,12 +10,12 @@ export default function CheckoutPage() {
   // This page is a pre-checkout form for address/delivery before handing off to Shopify
 
   return (
-    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '4rem 5rem' }}>
+    <div className="mob-pad mob-sm-pad" style={{ maxWidth: '1200px', margin: '0 auto', padding: '4rem 5rem' }}>
       <h1 className="type-headline" style={{ marginBottom: '3rem' }}>
         Checkout
       </h1>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 380px', gap: '5rem' }}>
+      <div className="mob-t-1col" style={{ display: 'grid', gridTemplateColumns: '1fr 380px', gap: '5rem' }}>
         {/* Left — forms */}
         <div>
           {/* Shipping */}

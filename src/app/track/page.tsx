@@ -11,7 +11,7 @@ export default function TrackOrderPage() {
   const exampleCurrentStep = 2 // Show example result in "Shipped" state
 
   return (
-    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '6rem 5rem' }}>
+    <div className="mob-pad mob-sm-pad" style={{ maxWidth: '800px', margin: '0 auto', padding: '6rem 5rem' }}>
       {/* Hero header */}
       <h1
         className="type-display"
@@ -28,6 +28,7 @@ export default function TrackOrderPage() {
 
       {/* Search form */}
       <form
+        className="mob-track-form"
         style={{ display: 'flex', gap: '1rem', marginBottom: '5rem', alignItems: 'flex-end' }}
       >
         <div style={{ flex: 1 }}>
