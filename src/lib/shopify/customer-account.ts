@@ -1,5 +1,5 @@
-// Shopify Customer Account API — must use myshopify.com domain, not custom domain
-const CUSTOMER_API = `https://${process.env.SHOPIFY_MYSHOPIFY_DOMAIN}/customer/api/2024-10/graphql`
+// Shopify Customer Account API — https://shopify.com/{shopId}/account/customer/api/{version}/graphql
+const CUSTOMER_API = `https://shopify.com/${process.env.SHOPIFY_SHOP_ID}/account/customer/api/2026-04/graphql`
 
 interface GraphQLResponse<T> {
   data?: T
