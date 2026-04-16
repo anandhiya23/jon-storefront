@@ -62,6 +62,7 @@ export const authOptions: NextAuthOptions = {
       },
       userinfo: {
         async request({ tokens }) {
+          console.log('[shopify-auth] userinfo url', CUSTOMER_API, 'token prefix', tokens.access_token?.slice(0, 20))
           const res = await fetch(CUSTOMER_API, {
             method: 'POST',
             headers: {
@@ -79,7 +80,9 @@ export const authOptions: NextAuthOptions = {
               }`,
             }),
           })
-          const json = await res.json()
+          const text = await res.text()
+          console.log('[shopify-auth] userinfo response', res.status, text.slice(0, 200))
+          const json = JSON.parse(text)
           const c = json.data?.customer
           return {
             id: c?.id ?? '',
