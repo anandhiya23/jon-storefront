@@ -39,8 +39,7 @@ export default function EmailSubscribeModal() {
               SS25 — Just One Nation
             </p>
             <h2
-              className="type-display text-white m-0 leading-none"
-              style={{ fontSize: 'clamp(2.25rem, 3.5vw, 3rem)' }}
+              className="type-display text-white m-0 leading-none text-[clamp(2.25rem,3.5vw,3rem)]"
             >
               Join<br />the<br />Nation.
             </h2>
@@ -53,9 +52,7 @@ export default function EmailSubscribeModal() {
           <button
             onClick={() => setVisible(false)}
             aria-label="Close"
-            className="absolute top-5 right-5 bg-transparent border-none cursor-pointer text-outline text-2xl leading-none px-2 py-1 transition-colors duration-150"
-            onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = '#000')}
-            onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = '#777')}
+            className="absolute top-5 right-5 bg-transparent border-none cursor-pointer text-outline hover:text-black text-2xl leading-none px-2 py-1 transition-colors duration-150"
           >
             ×
           </button>
@@ -114,9 +111,7 @@ export default function EmailSubscribeModal() {
 
               <button
                 onClick={() => setVisible(false)}
-                className="bg-transparent border-none cursor-pointer mt-5 text-[0.7rem] tracking-[0.1em] uppercase text-[#aaa] p-0 transition-colors duration-150"
-                onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = '#474747')}
-                onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = '#aaa')}
+                className="bg-transparent border-none cursor-pointer mt-5 text-[0.7rem] tracking-[0.1em] uppercase text-[#aaa] hover:text-on-surface-variant p-0 transition-colors duration-150"
               >
                 No thanks
               </button>

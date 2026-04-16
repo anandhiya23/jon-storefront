@@ -30,33 +30,27 @@ const FAQ = [
 
 export default function SupportPage() {
   return (
-    <div className="mob-pad mob-sm-pad" style={{ maxWidth: '1200px', margin: '0 auto', padding: '6rem 5rem' }}>
-      <div className="mob-t-1col" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8rem', alignItems: 'start' }}>
+    <div className="max-w-[1200px] mx-auto py-24 px-20 max-md:px-10 max-sm:px-6">
+      <div className="grid grid-cols-2 gap-32 items-start max-md:grid-cols-1 max-md:gap-16">
         {/* Left */}
         <div>
-          <h1
-            className="type-display"
-            style={{
-              marginBottom: '3rem',
-              fontSize: 'clamp(2.5rem, 4vw, 3.5rem)',
-            }}
-          >
+          <h1 className="type-display mb-12 text-[clamp(2.5rem,4vw,3.5rem)]">
             Get in Touch
           </h1>
 
           {/* Channels */}
-          <div style={{ marginBottom: '4rem', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+          <div className="mb-16 flex flex-col gap-8">
             <div>
-              <p className="type-label" style={{ color: '#777', marginBottom: '0.4rem' }}>Email</p>
-              <p style={{ fontWeight: 600, margin: 0 }}>support@jonperformance.id</p>
-              <p style={{ fontSize: '0.8125rem', color: '#474747', margin: '0.25rem 0 0' }}>
+              <p className="type-label text-outline mb-[0.4rem]">Email</p>
+              <p className="font-semibold m-0">support@jonperformance.id</p>
+              <p className="text-[0.8125rem] text-on-surface-variant mt-1">
                 Typical response within 12–24 hours
               </p>
             </div>
             <div>
-              <p className="type-label" style={{ color: '#777', marginBottom: '0.4rem' }}>WhatsApp</p>
-              <p style={{ fontWeight: 600, margin: 0 }}>+62 811 892 313</p>
-              <p style={{ fontSize: '0.8125rem', color: '#474747', margin: '0.25rem 0 0' }}>
+              <p className="type-label text-outline mb-[0.4rem]">WhatsApp</p>
+              <p className="font-semibold m-0">+62 811 892 313</p>
+              <p className="text-[0.8125rem] text-on-surface-variant mt-1">
                 Mon – Sat, 09:00 – 18:00 WIB
               </p>
             </div>
@@ -64,52 +58,33 @@ export default function SupportPage() {
 
           {/* FAQ */}
           <div>
-            <p className="type-label" style={{ marginBottom: '1.5rem' }}>FAQ</p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+            <p className="type-label mb-6">FAQ</p>
+            <div className="flex flex-col">
               {FAQ.map((item, i) => (
-                <details
-                  key={i}
-                  style={{
-                    borderTop: '1px solid #e8e8e8',
-                    padding: '1.25rem 0',
-                  }}
-                >
-                  <summary
-                    style={{
-                      fontWeight: 600,
-                      fontSize: '0.9375rem',
-                      cursor: 'pointer',
-                      listStyle: 'none',
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      userSelect: 'none',
-                    }}
-                  >
+                <details key={i} className="border-t border-surface-high py-5">
+                  <summary className="font-semibold text-[0.9375rem] cursor-pointer list-none flex justify-between select-none">
                     {item.q}
-                    <span style={{ fontWeight: 400, color: '#777', marginLeft: '1rem', flexShrink: 0 }}>+</span>
+                    <span className="font-normal text-outline ml-4 shrink-0">+</span>
                   </summary>
-                  <p style={{ fontSize: '0.875rem', color: '#474747', lineHeight: 1.7, marginTop: '1rem', marginBottom: 0 }}>
+                  <p className="text-sm text-on-surface-variant leading-[1.7] mt-4 mb-0">
                     {item.a}
                   </p>
                 </details>
               ))}
-              <div style={{ borderTop: '1px solid #e8e8e8' }} />
+              <div className="border-t border-surface-high" />
             </div>
           </div>
         </div>
 
         {/* Right — Contact form */}
         <div>
-          <p className="type-label" style={{ marginBottom: '2.5rem' }}>Send a Message</p>
-          <form style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+          <p className="type-label mb-10">Send a Message</p>
+          <form className="flex flex-col gap-8">
             <div>
-              <label className="type-label" style={{ display: 'block', color: '#474747', marginBottom: '0.5rem' }}>
+              <label className="type-label block text-on-surface-variant mb-2">
                 Subject
               </label>
-              <select
-                className="input-line"
-                style={{ cursor: 'pointer' }}
-              >
+              <select className="input-line cursor-pointer">
                 <option value="">Select a topic</option>
                 <option value="order">Order Inquiry</option>
                 <option value="returns">Returns & Exchanges</option>
@@ -119,39 +94,38 @@ export default function SupportPage() {
             </div>
 
             <div>
-              <label className="type-label" style={{ display: 'block', color: '#474747', marginBottom: '0.5rem' }}>
+              <label className="type-label block text-on-surface-variant mb-2">
                 Full Name
               </label>
               <input className="input-line" placeholder="Your name" required />
             </div>
 
             <div>
-              <label className="type-label" style={{ display: 'block', color: '#474747', marginBottom: '0.5rem' }}>
+              <label className="type-label block text-on-surface-variant mb-2">
                 Email Address
               </label>
               <input className="input-line" type="email" placeholder="your@email.com" required />
             </div>
 
             <div>
-              <label className="type-label" style={{ display: 'block', color: '#474747', marginBottom: '0.5rem' }}>
-                Order Code <span style={{ color: '#777', fontWeight: 400 }}>(optional)</span>
+              <label className="type-label block text-on-surface-variant mb-2">
+                Order Code <span className="text-outline font-normal">(optional)</span>
               </label>
               <input className="input-line" placeholder="JON-2025-00042" />
             </div>
 
             <div>
-              <label className="type-label" style={{ display: 'block', color: '#474747', marginBottom: '0.5rem' }}>
+              <label className="type-label block text-on-surface-variant mb-2">
                 Message
               </label>
               <textarea
-                className="input-line"
+                className="input-line resize-y"
                 placeholder="Tell us how we can help..."
                 rows={5}
-                style={{ resize: 'vertical' }}
               />
             </div>
 
-            <button type="submit" className="btn-primary" style={{ width: '100%', marginTop: '0.5rem' }}>
+            <button type="submit" className="btn-primary w-full mt-2">
               Send Message
             </button>
           </form>

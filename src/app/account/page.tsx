@@ -1,103 +1,91 @@
 import type { Metadata } from 'next'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/lib/auth'
+import {
+  customerAccountFetch,
+  GET_CUSTOMER_PROFILE,
+  type CACustomer,
+} from '@/lib/shopify/customer-account'
 
 export const metadata: Metadata = {
   title: 'My Profile',
   robots: { index: false, follow: false },
 }
 
-export default function AccountProfilePage() {
-  // TODO: fetch customer via Shopify Customer API using session token
+export default async function AccountProfilePage() {
+  const session = await getServerSession(authOptions)
+  const data = await customerAccountFetch<{ customer: CACustomer }>(
+    session!.accessToken,
+    GET_CUSTOMER_PROFILE,
+  )
+  const customer = data.customer
+  const addresses = customer.addresses.nodes
 
   return (
     <div>
-      <h1 className="type-headline" style={{ marginBottom: '3rem' }}>Profile</h1>
+      <h1 className="type-headline mb-12">Profile</h1>
 
       {/* Personal info */}
-      <section style={{ marginBottom: '4rem' }}>
-        <p className="type-label" style={{ marginBottom: '2rem', paddingBottom: '1rem', borderBottom: '1px solid #e8e8e8' }}>
+      <section className="mb-16">
+        <p className="type-label mb-8 pb-4 border-b border-surface-high">
           Personal Information
         </p>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
+        <div className="grid grid-cols-2 gap-8">
           {[
-            { label: 'First Name', value: '' },
-            { label: 'Last Name', value: '' },
-            { label: 'Email Address', value: '', col: 2 },
-            { label: 'Phone Number', value: '', col: 2 },
+            { label: 'First Name', value: customer.firstName ?? '' },
+            { label: 'Last Name', value: customer.lastName ?? '' },
+            { label: 'Email Address', value: customer.emailAddress?.emailAddress ?? '', col: 2 },
+            { label: 'Phone Number', value: customer.phoneNumber?.phoneNumber ?? '', col: 2 },
           ].map((field) => (
-            <div key={field.label} style={{ gridColumn: field.col === 2 ? 'span 2' : 'span 1' }}>
-              <label className="type-label" style={{ display: 'block', color: '#474747', marginBottom: '0.5rem' }}>
+            <div key={field.label} className={(field as { col?: number }).col === 2 ? 'col-span-2' : 'col-span-1'}>
+              <label className="type-label block text-on-surface-variant mb-2">
                 {field.label}
               </label>
-              <input className="input-line" defaultValue={field.value} />
+              <input className="input-line" defaultValue={field.value} readOnly />
             </div>
           ))}
         </div>
-        <button className="btn-primary" style={{ marginTop: '2.5rem' }}>
-          Save Changes
-        </button>
+        <p className="text-xs text-outline mt-6">
+          To update personal info, visit your Shopify account settings.
+        </p>
       </section>
 
       {/* Address book */}
       <section>
-        <p className="type-label" style={{ marginBottom: '2rem', paddingBottom: '1rem', borderBottom: '1px solid #e8e8e8' }}>
+        <p className="type-label mb-8 pb-4 border-b border-surface-high">
           Address Book
         </p>
 
-        {/* Placeholder addresses */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', marginBottom: '2rem' }}>
-          {[
-            {
-              name: 'Bintang Anandhiya',
-              line: 'Jl. Sudirman No. 12, Jakarta Selatan',
-              city: 'Jakarta 12190, Indonesia',
-              default: true,
-            },
-          ].map((addr, i) => (
-            <div
-              key={i}
-              style={{
-                padding: '1.5rem',
-                backgroundColor: '#f3f3f3',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'flex-start',
-              }}
-            >
-              <div>
-                {addr.default && (
-                  <span
-                    className="type-label"
-                    style={{
-                      backgroundColor: '#000',
-                      color: '#e2e2e2',
-                      padding: '0.2rem 0.5rem',
-                      fontSize: '0.65rem',
-                      marginBottom: '0.75rem',
-                      display: 'inline-block',
-                    }}
-                  >
-                    Default
-                  </span>
-                )}
-                <p style={{ fontWeight: 600, fontSize: '0.9375rem', margin: '0 0 0.25rem' }}>{addr.name}</p>
-                <p style={{ fontSize: '0.875rem', color: '#474747', margin: '0 0 0.2rem' }}>{addr.line}</p>
-                <p style={{ fontSize: '0.875rem', color: '#474747', margin: 0 }}>{addr.city}</p>
-              </div>
-              <div style={{ display: 'flex', gap: '1.5rem' }}>
-                <button className="type-label" style={{ background: 'none', border: 'none', cursor: 'pointer', borderBottom: '1px solid #777', color: '#474747', padding: 0 }}>
-                  Edit
-                </button>
-                <button className="type-label" style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#ba1a1a', padding: 0 }}>
-                  Remove
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
+        {addresses.length === 0 ? (
+          <p className="text-sm text-on-surface-variant">No saved addresses.</p>
+        ) : (
+          <div className="flex flex-col gap-6 mb-8">
+            {addresses.map((addr, i) => {
+              const isDefault = addr.id === customer.defaultAddress?.id
+              const name = [addr.firstName, addr.lastName].filter(Boolean).join(' ')
+              const line = [addr.address1, addr.address2].filter(Boolean).join(', ')
+              const cityLine = [addr.city, addr.province, addr.zip, addr.country].filter(Boolean).join(', ')
+              return (
+                <div key={addr.id ?? i} className="p-6 bg-surface-low flex justify-between items-start">
+                  <div>
+                    {isDefault && (
+                      <span className="type-label bg-black text-on-primary px-2 py-[0.2rem] text-[0.65rem] mb-3 inline-block">
+                        Default
+                      </span>
+                    )}
+                    <p className="font-semibold text-[0.9375rem] m-0 mb-1">{name}</p>
+                    {line && <p className="text-sm text-on-surface-variant m-0 mb-[0.2rem]">{line}</p>}
+                    <p className="text-sm text-on-surface-variant m-0">{cityLine}</p>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        )}
 
-        <button className="btn-secondary">
-          Add New Address
-        </button>
+        <p className="text-xs text-outline">
+          Manage addresses in your Shopify account settings.
+        </p>
       </section>
     </div>
   )

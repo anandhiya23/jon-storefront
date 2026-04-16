@@ -10,20 +10,20 @@ export default function CheckoutPage() {
   // This page is a pre-checkout form for address/delivery before handing off to Shopify
 
   return (
-    <div className="mob-pad mob-sm-pad" style={{ maxWidth: '1200px', margin: '0 auto', padding: '4rem 5rem' }}>
-      <h1 className="type-headline" style={{ marginBottom: '3rem' }}>
+    <div className="max-w-[1200px] mx-auto py-16 px-20 max-md:px-10 max-sm:px-6">
+      <h1 className="type-headline mb-12">
         Checkout
       </h1>
 
-      <div className="mob-t-1col" style={{ display: 'grid', gridTemplateColumns: '1fr 380px', gap: '5rem' }}>
+      <div className="grid grid-cols-[1fr_380px] gap-20 max-md:grid-cols-1 max-md:gap-12">
         {/* Left — forms */}
         <div>
           {/* Shipping */}
-          <section style={{ marginBottom: '3rem' }}>
-            <p className="type-label" style={{ marginBottom: '2rem', paddingBottom: '1rem', borderBottom: '1px solid #e8e8e8' }}>
+          <section className="mb-12">
+            <p className="type-label mb-8 pb-4 border-b border-surface-high">
               Shipping Address
             </p>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem 2rem' }}>
+            <div className="grid grid-cols-2 gap-y-6 gap-x-8">
               {[
                 { label: 'First Name', col: 1 },
                 { label: 'Last Name', col: 1 },
@@ -36,11 +36,8 @@ export default function CheckoutPage() {
                 { label: 'Country', col: 1 },
                 { label: 'Postal Code', col: 1 },
               ].map((field) => (
-                <div
-                  key={field.label}
-                  style={{ gridColumn: field.col === 2 ? 'span 2' : 'span 1' }}
-                >
-                  <label className="type-label" style={{ display: 'block', color: '#474747', marginBottom: '0.5rem' }}>
+                <div key={field.label} className={field.col === 2 ? 'col-span-2' : 'col-span-1'}>
+                  <label className="type-label block text-on-surface-variant mb-2">
                     {field.label}
                   </label>
                   <input className="input-line" placeholder=" " />
@@ -50,32 +47,22 @@ export default function CheckoutPage() {
           </section>
 
           {/* Delivery method */}
-          <section style={{ marginBottom: '3rem' }}>
-            <p className="type-label" style={{ marginBottom: '2rem', paddingBottom: '1rem', borderBottom: '1px solid #e8e8e8' }}>
+          <section className="mb-12">
+            <p className="type-label mb-8 pb-4 border-b border-surface-high">
               Delivery Method
             </p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <div className="flex flex-col gap-4">
               {[
                 { id: 'standard', label: 'Standard Delivery', detail: '3–5 working days', price: 'Rp 25.000' },
                 { id: 'express', label: 'Express Delivery', detail: '1–2 working days', price: 'Rp 50.000' },
               ].map((option) => (
-                <label
-                  key={option.id}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '1rem',
-                    padding: '1.25rem',
-                    backgroundColor: '#f3f3f3',
-                    cursor: 'pointer',
-                  }}
-                >
+                <label key={option.id} className="flex items-center gap-4 p-5 bg-surface-low cursor-pointer">
                   <input type="radio" name="delivery" value={option.id} defaultChecked={option.id === 'standard'} />
-                  <div style={{ flex: 1 }}>
-                    <p style={{ fontWeight: 600, fontSize: '0.9375rem', margin: '0 0 0.25rem' }}>{option.label}</p>
-                    <p style={{ fontSize: '0.8125rem', color: '#474747', margin: 0 }}>{option.detail}</p>
+                  <div className="flex-1">
+                    <p className="font-semibold text-[0.9375rem] m-0 mb-1">{option.label}</p>
+                    <p className="text-[0.8125rem] text-on-surface-variant m-0">{option.detail}</p>
                   </div>
-                  <span style={{ fontWeight: 600, fontSize: '0.875rem' }}>{option.price}</span>
+                  <span className="font-semibold text-sm">{option.price}</span>
                 </label>
               ))}
             </div>
@@ -83,38 +70,38 @@ export default function CheckoutPage() {
 
           {/* Payment */}
           <section>
-            <p className="type-label" style={{ marginBottom: '2rem', paddingBottom: '1rem', borderBottom: '1px solid #e8e8e8' }}>
+            <p className="type-label mb-8 pb-4 border-b border-surface-high">
               Payment
             </p>
-            <div style={{ display: 'grid', gap: '1.5rem' }}>
+            <div className="grid gap-6">
               <div>
-                <label className="type-label" style={{ display: 'block', color: '#474747', marginBottom: '0.5rem' }}>
+                <label className="type-label block text-on-surface-variant mb-2">
                   Card Number
                 </label>
                 <input className="input-line" placeholder="1234 5678 9012 3456" />
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
+              <div className="grid grid-cols-2 gap-8">
                 <div>
-                  <label className="type-label" style={{ display: 'block', color: '#474747', marginBottom: '0.5rem' }}>
+                  <label className="type-label block text-on-surface-variant mb-2">
                     Expiry Date
                   </label>
                   <input className="input-line" placeholder="MM / YY" />
                 </div>
                 <div>
-                  <label className="type-label" style={{ display: 'block', color: '#474747', marginBottom: '0.5rem' }}>
+                  <label className="type-label block text-on-surface-variant mb-2">
                     CVV
                   </label>
                   <input className="input-line" placeholder="•••" />
                 </div>
               </div>
               <div>
-                <label className="type-label" style={{ display: 'block', color: '#474747', marginBottom: '0.5rem' }}>
+                <label className="type-label block text-on-surface-variant mb-2">
                   Name on Card
                 </label>
                 <input className="input-line" placeholder="As it appears on your card" />
               </div>
             </div>
-            <p style={{ fontSize: '0.75rem', color: '#777', marginTop: '1rem' }}>
+            <p className="text-xs text-outline mt-4">
               Payments processed securely via Stripe. Card details are never stored on our servers.
             </p>
           </section>
@@ -122,45 +109,38 @@ export default function CheckoutPage() {
 
         {/* Right — order summary */}
         <div>
-          <div
-            style={{
-              backgroundColor: '#f3f3f3',
-              padding: '2rem',
-              position: 'sticky',
-              top: '5rem',
-            }}
-          >
-            <p className="type-label" style={{ marginBottom: '1.5rem' }}>Order Summary</p>
+          <div className="bg-surface-low p-8 sticky top-20">
+            <p className="type-label mb-6">Order Summary</p>
 
             {/* Items placeholder */}
-            <div style={{ marginBottom: '1.5rem', borderBottom: '1px solid #e8e8e8', paddingBottom: '1.5rem' }}>
-              <p style={{ fontSize: '0.875rem', color: '#474747' }}>No items in cart</p>
+            <div className="mb-6 border-b border-surface-high pb-6">
+              <p className="text-sm text-on-surface-variant">No items in cart</p>
             </div>
 
             {/* Promo */}
-            <div style={{ marginBottom: '1.5rem' }}>
-              <div style={{ display: 'flex', gap: '0.5rem' }}>
-                <input className="input-line" placeholder="Promo code" style={{ flex: 1 }} />
-                <button className="btn-secondary" style={{ padding: '0.4rem 0.875rem', fontSize: '0.65rem' }}>
+            <div className="mb-6">
+              <div className="flex gap-2">
+                <input className="input-line flex-1" placeholder="Promo code" />
+                <button className="btn-secondary px-3.5 py-[0.4rem] text-[0.65rem]">
                   Apply
                 </button>
               </div>
             </div>
 
             {/* Totals */}
-            <div style={{ fontSize: '0.875rem', display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '1.5rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span style={{ color: '#474747' }}>Subtotal</span><span>—</span>
+            <div className="text-sm flex flex-col gap-3 mb-6">
+              <div className="flex justify-between">
+                <span className="text-on-surface-variant">Subtotal</span><span>—</span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span style={{ color: '#474747' }}>Shipping</span><span>Rp 25.000</span>
+              <div className="flex justify-between">
+                <span className="text-on-surface-variant">Shipping</span><span>Rp 25.000</span>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 700, fontSize: '1rem', paddingTop: '0.75rem', borderTop: '1px solid #e8e8e8' }}>
+              <div className="flex justify-between font-bold text-base pt-3 border-t border-surface-high">
                 <span>Total</span><span>—</span>
               </div>
             </div>
 
-            <button className="btn-primary" style={{ width: '100%' }}>
+            <button className="btn-primary w-full">
               Place Order
             </button>
           </div>

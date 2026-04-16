@@ -43,77 +43,75 @@ export const GET_PRODUCT_BY_HANDLE = `
   }
 `
 
-export const CREATE_CART = `
-  mutation CreateCart($lines: [CartLineInput!]) {
-    cartCreate(input: { lines: $lines }) {
-      cart {
+const CART_FRAGMENT = `
+  fragment CartFields on Cart {
+    id
+    checkoutUrl
+    lines(first: 50) {
+      nodes {
         id
-        checkoutUrl
-        lines(first: 50) {
-          nodes {
+        quantity
+        merchandise {
+          ... on ProductVariant {
             id
-            quantity
-            merchandise {
-              ... on ProductVariant {
-                id
-                title
-                price { amount currencyCode }
-                product {
-                  title
-                  handle
-                  images(first: 1) { nodes { url altText } }
-                }
-              }
+            title
+            price { amount currencyCode }
+            product {
+              title
+              handle
+              images(first: 1) { nodes { url altText } }
             }
           }
         }
-        cost {
-          subtotalAmount { amount currencyCode }
-          totalAmount { amount currencyCode }
-          totalTaxAmount { amount currencyCode }
-        }
       }
+    }
+    cost {
+      subtotalAmount { amount currencyCode }
+      totalAmount { amount currencyCode }
+      totalTaxAmount { amount currencyCode }
+    }
+  }
+`
+
+export const CREATE_CART = `
+  ${CART_FRAGMENT}
+  mutation CreateCart($lines: [CartLineInput!]) {
+    cartCreate(input: { lines: $lines }) {
+      cart { ...CartFields }
     }
   }
 `
 
 export const ADD_TO_CART = `
+  ${CART_FRAGMENT}
   mutation AddToCart($cartId: ID!, $lines: [CartLineInput!]!) {
     cartLinesAdd(cartId: $cartId, lines: $lines) {
-      cart {
-        id
-        lines(first: 50) {
-          nodes {
-            id
-            quantity
-            merchandise {
-              ... on ProductVariant {
-                id
-                title
-                price { amount currencyCode }
-                product {
-                  title
-                  handle
-                  images(first: 1) { nodes { url altText } }
-                }
-              }
-            }
-          }
-        }
-        cost {
-          subtotalAmount { amount currencyCode }
-          totalAmount { amount currencyCode }
-          totalTaxAmount { amount currencyCode }
-        }
-      }
+      cart { ...CartFields }
     }
   }
 `
 
+export const GET_CART = `
+  ${CART_FRAGMENT}
+  query GetCart($cartId: ID!) {
+    cart(id: $cartId) { ...CartFields }
+  }
+`
+
 export const REMOVE_FROM_CART = `
+  ${CART_FRAGMENT}
   mutation RemoveFromCart($cartId: ID!, $lineIds: [ID!]!) {
     cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
-      cart { id }
+      cart { ...CartFields }
+    }
+  }
+`
+
+export const UPDATE_CART_LINES = `
+  ${CART_FRAGMENT}
+  mutation UpdateCartLines($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
+    cartLinesUpdate(cartId: $cartId, lines: $lines) {
+      cart { ...CartFields }
     }
   }
 `

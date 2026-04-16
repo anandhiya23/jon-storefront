@@ -1,6 +1,9 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
-import Image from 'next/image'
+import ProductCard from '@/components/product/ProductCard'
+import SortSelect from '@/components/product/SortSelect'
+import { storefrontFetch } from '@/lib/shopify/client'
+import { GET_PRODUCTS } from '@/lib/shopify/queries'
+import type { Product } from '@/types'
 
 export const metadata: Metadata = {
   title: 'All Products',
@@ -15,16 +18,42 @@ const SORT_OPTIONS = [
   { value: 'TITLE-asc', label: 'Name A–Z' },
 ]
 
+const SORT_KEY_MAP: Record<string, { sortKey: string; reverse: boolean }> = {
+  'CREATED_AT-desc': { sortKey: 'CREATED_AT', reverse: true },
+  'PRICE-asc': { sortKey: 'PRICE', reverse: false },
+  'PRICE-desc': { sortKey: 'PRICE', reverse: true },
+  'TITLE-asc': { sortKey: 'TITLE', reverse: false },
+}
+
 interface Props {
   searchParams: Promise<{ sort?: string; collection?: string; q?: string }>
+}
+
+interface ProductsResponse {
+  products: {
+    nodes: Product[]
+    pageInfo: { hasNextPage: boolean; endCursor: string | null }
+  }
 }
 
 export default async function ProductListingPage({ searchParams }: Props) {
   const params = await searchParams
   const { sort = 'CREATED_AT-desc', collection, q } = params
+  const { sortKey, reverse } = SORT_KEY_MAP[sort] ?? SORT_KEY_MAP['CREATED_AT-desc']
 
-  // TODO: Wire to storefrontFetch(GET_PRODUCTS, { first: 24, sortKey, reverse, query })
-  // For now rendering the shell with static placeholder grid
+  const queryParts: string[] = []
+  if (collection) queryParts.push(`tag:${collection}`)
+  if (q) queryParts.push(q)
+  const queryString = queryParts.join(' ') || undefined
+
+  const data = await storefrontFetch<ProductsResponse>(GET_PRODUCTS, {
+    first: 24,
+    sortKey,
+    reverse,
+    query: queryString,
+  })
+
+  const products = data.products.nodes
 
   return (
     <div className="max-w-[1440px] mx-auto py-16 px-20 max-md:px-10 max-sm:px-6">
@@ -39,50 +68,31 @@ export default async function ProductListingPage({ searchParams }: Props) {
           </h1>
         </div>
 
-        {/* Sort */}
         <div className="flex items-center gap-4">
           <span className="type-label text-outline">Sort</span>
-          <select
-            defaultValue={sort}
-            className="bg-transparent border-none border-b border-outline rounded-none py-1 font-[inherit] text-[0.75rem] tracking-[0.05em] cursor-pointer"
-          >
-            {SORT_OPTIONS.map((o) => (
-              <option key={o.value} value={o.value}>
-                {o.label}
-              </option>
-            ))}
-          </select>
+          <SortSelect value={sort} options={SORT_OPTIONS} />
         </div>
       </div>
 
       {/* Grid */}
-      <div className="grid grid-cols-4 gap-x-6 gap-y-8 max-md:grid-cols-2">
-        {/* Placeholder cards — replace with <ProductCard product={p} /> when data is wired */}
-        {Array.from({ length: 12 }).map((_, i) => (
-          <div key={i}>
-            <div className="relative aspect-[3/4] bg-surface-high mb-4 overflow-hidden">
-              <Image
-                src={`/mocks/apparel-${(i % 4) + 1}.png`}
-                alt="Product"
-                fill
-                className="object-cover"
-              />
-            </div>
-            <p className="type-label text-outline mb-[0.4rem]">Category</p>
-            <p className="text-[0.9375rem] font-medium m-0 mb-[0.4rem]">
-              Product Name
-            </p>
-            <p className="text-[0.9375rem] font-semibold">Rp 599.000</p>
-          </div>
-        ))}
-      </div>
+      {products.length === 0 ? (
+        <p className="text-on-surface-variant py-24 text-center">No products found.</p>
+      ) : (
+        <div className="grid grid-cols-4 gap-x-6 gap-y-8 max-md:grid-cols-2">
+          {products.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      )}
 
       {/* Load more */}
-      <div className="text-center mt-16">
-        <button className="btn-secondary min-w-[200px]">
-          Load More
-        </button>
-      </div>
+      {data.products.pageInfo.hasNextPage && (
+        <div className="text-center mt-16">
+          <button className="btn-secondary min-w-[200px]">
+            Load More
+          </button>
+        </div>
+      )}
     </div>
   )
 }

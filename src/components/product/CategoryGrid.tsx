@@ -20,13 +20,7 @@ export default function CategoryGrid() {
           className="no-underline"
         >
           <div
-            className="relative aspect-[3/4] bg-surface-high flex items-end p-6 transition-transform duration-200 ease-out overflow-hidden"
-            onMouseEnter={(e) =>
-              ((e.currentTarget as HTMLElement).style.transform = 'translateY(-4px)')
-            }
-            onMouseLeave={(e) =>
-              ((e.currentTarget as HTMLElement).style.transform = 'translateY(0)')
-            }
+            className="relative aspect-[3/4] bg-surface-high flex items-end p-6 transition-transform duration-200 ease-out overflow-hidden hover:-translate-y-1"
           >
             <Image
               src={cat.image}
@@ -35,8 +29,7 @@ export default function CategoryGrid() {
               className="object-cover opacity-60"
             />
             <h2
-              className="type-headline relative z-10 text-white text-[1.25rem] m-0"
-              style={{ textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}
+              className="type-headline relative z-10 text-white text-[1.25rem] m-0 [text-shadow:0_1px_4px_rgba(0,0,0,0.5)]"
             >
               {cat.label}
             </h2>

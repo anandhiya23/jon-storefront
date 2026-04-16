@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState, useRef } from 'react'
+import { useSession } from 'next-auth/react'
 import { useCartStore } from '@/store/cart'
 
 type MenuItem = {
@@ -62,8 +63,10 @@ const NAV_ITEMS: MenuItem[] = [
 ]
 
 export default function Navbar() {
-  const { itemCount, toggleCart } = useCartStore()
-  const count = itemCount()
+  const { data: session } = useSession()
+  const count = useCartStore(
+    (s) => s.cart?.lines.nodes.reduce((sum, l) => sum + l.quantity, 0) ?? 0,
+  )
 
   // Desktop mega menu
   const [activeMenu, setActiveMenu] = useState<string | null>(null)
@@ -83,12 +86,7 @@ export default function Navbar() {
   return (
     <>
       <header
-        className="sticky top-0 z-50"
-        style={{
-          backgroundColor: 'rgba(255,255,255,0.88)',
-          backdropFilter: 'blur(24px)',
-          borderBottom: activeMenu ? 'none' : '1px solid rgba(198,198,198,0.2)',
-        }}
+        className={`sticky top-0 z-50 bg-white/90 backdrop-blur-2xl ${activeMenu ? '' : 'border-b border-[rgba(198,198,198,0.2)]'}`}
       >
         <nav className="max-w-[1440px] mx-auto px-8 h-16 flex items-center justify-between">
           {/* Wordmark */}
@@ -107,12 +105,8 @@ export default function Navbar() {
               >
                 <Link
                   href={item.href}
-                  className="type-label text-on-surface no-underline py-2"
+                  className={`type-label text-on-surface no-underline py-2 border-b-2 transition-colors duration-150 ${activeMenu === item.label ? 'border-black' : 'border-transparent'}`}
                   onClick={closeAll}
-                  style={{
-                    borderBottom: activeMenu === item.label ? '2px solid #000' : '2px solid transparent',
-                    transition: 'border-color 0.15s ease',
-                  }}
                 >
                   {item.label}
                 </Link>
@@ -122,10 +116,15 @@ export default function Navbar() {
 
           {/* Desktop actions */}
           <div className="hidden md:flex items-center gap-6">
-            <Link href="/account" className="type-label text-on-surface no-underline">Account</Link>
-            <button
-              onClick={toggleCart}
-              className="type-label bg-transparent border-none cursor-pointer text-on-surface flex items-center gap-[0.4rem]"
+            <Link
+              href={session ? '/account' : '/auth/login'}
+              className="type-label text-on-surface no-underline"
+            >
+              {session ? 'Account' : 'Login'}
+            </Link>
+            <Link
+              href="/cart"
+              className="type-label text-on-surface no-underline flex items-center gap-[0.4rem]"
             >
               Cart
               {count > 0 && (
@@ -133,15 +132,15 @@ export default function Navbar() {
                   {count}
                 </span>
               )}
-            </button>
+            </Link>
           </div>
 
           {/* Mobile row */}
           <div className="flex md:hidden items-center gap-5">
             {/* Cart */}
-            <button
-              onClick={toggleCart}
-              className="type-label bg-transparent border-none cursor-pointer text-on-surface flex items-center gap-[0.4rem]"
+            <Link
+              href="/cart"
+              className="type-label text-on-surface no-underline flex items-center gap-[0.4rem]"
             >
               Cart
               {count > 0 && (
@@ -149,7 +148,7 @@ export default function Navbar() {
                   {count}
                 </span>
               )}
-            </button>
+            </Link>
             {/* Hamburger */}
             <button
               onClick={() => setMobileOpen(true)}
@@ -166,13 +165,9 @@ export default function Navbar() {
         {/* Desktop mega menu panel */}
         {activeItem && (
           <div
-            className="jon-megamenu absolute top-16 left-0 right-0 border-b border-[rgba(198,198,198,0.25)] shadow-[0_24px_48px_rgba(0,0,0,0.07)]"
+            className="jon-megamenu absolute top-16 left-0 right-0 border-b border-[rgba(198,198,198,0.25)] shadow-[0_24px_48px_rgba(0,0,0,0.07)] bg-white/95 backdrop-blur-2xl"
             onMouseEnter={cancelClose}
             onMouseLeave={scheduleClose}
-            style={{
-              backgroundColor: 'rgba(255,255,255,0.96)',
-              backdropFilter: 'blur(24px)',
-            }}
           >
             <div className="max-w-[1440px] mx-auto px-8 pt-10 pb-12">
 
@@ -182,11 +177,9 @@ export default function Navbar() {
                   {activeItem.featured.map((cat) => (
                     <Link key={cat.label} href={cat.href} onClick={closeAll} className="no-underline">
                       <div
-                        className="relative aspect-[3/4] overflow-hidden bg-surface-high"
-                        onMouseEnter={(e) => { const img = e.currentTarget.querySelector('img') as HTMLImageElement | null; if (img) img.style.transform = 'scale(1.04)' }}
-                        onMouseLeave={(e) => { const img = e.currentTarget.querySelector('img') as HTMLImageElement | null; if (img) img.style.transform = 'scale(1)' }}
+                        className="group relative aspect-[3/4] overflow-hidden bg-surface-high"
                       >
-                        <Image src={cat.image} alt={cat.label} fill className="object-cover" style={{ transition: 'transform 0.4s ease' }} />
+                        <Image src={cat.image} alt={cat.label} fill className="object-cover transition-transform duration-[400ms] ease-out group-hover:scale-[1.04]" />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/65 to-transparent" />
                         <div className="absolute bottom-0 left-0 p-5">
                           <p className="type-headline text-white text-[1.1rem] m-0 mb-[0.2rem]">{cat.label}</p>
@@ -212,9 +205,7 @@ export default function Navbar() {
                             <Link
                               href={link.href}
                               onClick={closeAll}
-                              className="text-[0.9375rem] text-on-surface no-underline font-medium"
-                              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.opacity = '0.6')}
-                              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.opacity = '1')}
+                              className="text-[0.9375rem] text-on-surface no-underline font-medium transition-opacity hover:opacity-60"
                             >
                               {link.label}
                             </Link>
@@ -276,7 +267,7 @@ export default function Navbar() {
                 onClick={() => setMobileExpanded(mobileExpanded === item.label ? null : item.label)}
               >
                 {item.label}
-                <span style={{ fontSize: '1rem', fontWeight: 300, transform: mobileExpanded === item.label ? 'rotate(45deg)' : 'none', transition: 'transform 0.2s ease', display: 'inline-block' }}>
+                <span className={`inline-block text-base font-light transition-transform duration-200 ${mobileExpanded === item.label ? 'rotate-45' : ''}`}>
                   +
                 </span>
               </button>
@@ -312,8 +303,12 @@ export default function Navbar() {
 
           {/* Account link */}
           <div className="border-b border-surface-high py-5">
-            <Link href="/account" onClick={closeAll} className="type-label text-on-surface no-underline">
-              Account
+            <Link
+              href={session ? '/account' : '/auth/login'}
+              onClick={closeAll}
+              className="type-label text-on-surface no-underline"
+            >
+              {session ? 'Account' : 'Login'}
             </Link>
           </div>
         </div>

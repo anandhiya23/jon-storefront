@@ -14,53 +14,33 @@ export default function ProductCard({ product }: Props) {
   return (
     <Link
       href={`/products/${product.handle}`}
-      style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}
+      className="block no-underline text-inherit"
     >
-      <article
-        style={{
-          backgroundColor: '#fff',
-          overflow: 'hidden',
-          cursor: 'pointer',
-          transition: 'transform 0.2s ease',
-        }}
-        onMouseEnter={(e) => {
-          ;(e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)'
-        }}
-        onMouseLeave={(e) => {
-          ;(e.currentTarget as HTMLElement).style.transform = 'translateY(0)'
-        }}
-      >
+      <article className="bg-white overflow-hidden cursor-pointer transition-transform duration-200 hover:-translate-y-0.5">
         {/* Image */}
-        <div style={{ aspectRatio: '3/4', position: 'relative', backgroundColor: '#f3f3f3', overflow: 'hidden' }}>
+        <div className="relative aspect-[3/4] bg-surface-low overflow-hidden">
           {image ? (
             <Image
               src={image.url}
               alt={image.altText ?? product.title}
               fill
               sizes="(max-width: 768px) 50vw, 25vw"
-              style={{ objectFit: 'cover' }}
+              className="object-cover"
             />
           ) : (
-            <div style={{ width: '100%', height: '100%', backgroundColor: '#e8e8e8' }} />
+            <div className="w-full h-full bg-surface-high" />
           )}
         </div>
 
         {/* Info */}
-        <div style={{ padding: '1.25rem 0 1rem' }}>
-          <p className="type-label" style={{ color: '#777', marginBottom: '0.4rem' }}>
+        <div className="px-4 pt-5 pb-4">
+          <p className="type-label text-outline mb-[0.4rem]">
             {product.collections.nodes[0]?.title ?? 'JON'}
           </p>
-          <h3
-            style={{
-              fontSize: '0.9375rem',
-              fontWeight: 500,
-              margin: '0 0 0.5rem',
-              lineHeight: 1.3,
-            }}
-          >
+          <h3 className="text-[0.9375rem] font-medium m-0 mb-2 leading-[1.3]">
             {product.title}
           </h3>
-          <p style={{ fontSize: '0.9375rem', fontWeight: 600, margin: 0 }}>
+          <p className="text-[0.9375rem] font-semibold m-0">
             {formatPrice(price.amount, price.currencyCode)}
           </p>
         </div>
