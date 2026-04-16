@@ -1,12 +1,11 @@
 import type { NextAuthOptions } from 'next-auth'
 
 const SHOP_ID = process.env.SHOPIFY_SHOP_ID!
-const SHOP_DOMAIN = process.env.SHOPIFY_STORE_DOMAIN!
 const CLIENT_ID = process.env.SHOPIFY_CUSTOMER_ACCOUNT_CLIENT_ID!
+// Customer Account API must use myshopify.com domain — custom domain doesn't route API requests
+const CUSTOMER_API = `https://${process.env.SHOPIFY_MYSHOPIFY_DOMAIN}/customer/api/2024-10/graphql`
 
 const AUTH_BASE = `https://shopify.com/authentication/${SHOP_ID}/oauth`
-// No "Bearer" prefix — Shopify Customer Account API uses raw token
-const CUSTOMER_API = `https://${SHOP_DOMAIN}/customer/api/2024-10/graphql`
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -93,6 +92,7 @@ export const authOptions: NextAuthOptions = {
         return { id: profile.id, name: profile.name, email: profile.email }
       },
       checks: ['pkce', 'state'],
+      idToken: false, // prevent next-auth from treating this as OIDC + validating id_token JWT
     },
   ],
   callbacks: {

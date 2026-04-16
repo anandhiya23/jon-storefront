@@ -1,5 +1,5 @@
-// Shopify Customer Account API — uses shop domain endpoint, raw token (no Bearer prefix)
-const CUSTOMER_API = `https://${process.env.SHOPIFY_STORE_DOMAIN}/customer/api/2024-10/graphql`
+// Shopify Customer Account API — must use myshopify.com domain, not custom domain
+const CUSTOMER_API = `https://${process.env.SHOPIFY_MYSHOPIFY_DOMAIN}/customer/api/2024-10/graphql`
 
 interface GraphQLResponse<T> {
   data?: T
