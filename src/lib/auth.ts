@@ -31,14 +31,6 @@ export const authOptions: NextAuthOptions = {
           // next-auth does not include redirect_uri in params — construct it
           const redirectUri = `${process.env.NEXTAUTH_URL}/api/auth/callback/shopify`
 
-          console.log('[shopify-auth] token request', {
-            tokenUrl,
-            hasClientId: !!clientId,
-            clientIdPrefix: clientId?.slice(0, 8),
-            hasCode: !!params.code,
-            hasCodeVerifier: !!checks.code_verifier,
-            redirectUri,
-          })
 
           const body = new URLSearchParams({
             grant_type: 'authorization_code',
@@ -56,13 +48,11 @@ export const authOptions: NextAuthOptions = {
             body,
           })
           const text = await res.text()
-          console.log('[shopify-auth] token response', res.status, text.slice(0, 300))
           return { tokens: JSON.parse(text) }
         },
       },
       userinfo: {
         async request({ tokens }) {
-          console.log('[shopify-auth] userinfo url', CUSTOMER_API, 'token prefix', tokens.access_token?.slice(0, 20))
           const res = await fetch(CUSTOMER_API, {
             method: 'POST',
             headers: {
@@ -80,9 +70,7 @@ export const authOptions: NextAuthOptions = {
               }`,
             }),
           })
-          const text = await res.text()
-          console.log('[shopify-auth] userinfo response', res.status, text.slice(0, 200))
-          const json = JSON.parse(text)
+          const json = await res.json()
           const c = json.data?.customer
           return {
             id: c?.id ?? '',

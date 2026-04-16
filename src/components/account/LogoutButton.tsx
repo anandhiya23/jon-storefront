@@ -1,12 +1,16 @@
 'use client'
 
-import { signOut } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 
 export default function LogoutButton() {
+  const { data: session } = useSession()
+
   async function handleLogout() {
-    // Clear next-auth session, then redirect to Shopify end_session endpoint
+    // Capture idToken before signOut clears the session cookie
+    const idToken = session?.idToken
     await signOut({ redirect: false })
-    window.location.href = '/api/auth/shopify-logout'
+    const params = idToken ? `?id_token=${encodeURIComponent(idToken)}` : ''
+    window.location.href = `/api/auth/shopify-logout${params}`
   }
 
   return (

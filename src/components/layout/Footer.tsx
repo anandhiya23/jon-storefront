@@ -21,7 +21,7 @@ const FOOTER_LINKS = {
 
 export default function Footer() {
   return (
-    <footer className="bg-primary text-on-primary pt-20 px-8 pb-12 mt-32">
+    <footer className="bg-primary text-on-primary pt-20 px-8 pb-12">
       <div className="max-w-[1440px] mx-auto">
         {/* Top row */}
         <div className="grid grid-cols-[2fr_1fr_1fr_1fr] gap-16 pb-16 border-b border-white/10 max-md:grid-cols-2 max-md:gap-10 max-sm:grid-cols-1 max-sm:gap-8">

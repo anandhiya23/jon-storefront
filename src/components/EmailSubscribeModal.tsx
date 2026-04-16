@@ -27,10 +27,10 @@ export default function EmailSubscribeModal() {
         {/* Left — editorial image panel */}
         <div className="relative min-h-[520px] bg-black overflow-hidden max-sm:hidden">
           <Image
-            src="/mocks/apparel-2.png"
+            src="/runningwoman.png"
             alt=""
             fill
-            className="object-cover opacity-[0.55]"
+            className="object-cover"
           />
           {/* Gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/85 to-black/10" />

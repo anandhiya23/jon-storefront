@@ -26,10 +26,11 @@ export default function CategoryGrid() {
               src={cat.image}
               alt={cat.label}
               fill
-              className="object-cover opacity-60"
+              className="object-cover"
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
             <h2
-              className="type-headline relative z-10 text-white text-[1.25rem] m-0 [text-shadow:0_1px_4px_rgba(0,0,0,0.5)]"
+              className="type-headline relative z-10 text-white text-[1.25rem] m-0"
             >
               {cat.label}
             </h2>

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useState, useRef } from 'react'
 import { useSession } from 'next-auth/react'
+import { ShoppingBag } from 'lucide-react'
 import { useCartStore } from '@/store/cart'
 
 type MenuItem = {
@@ -122,13 +123,10 @@ export default function Navbar() {
             >
               {session ? 'Account' : 'Login'}
             </Link>
-            <Link
-              href="/cart"
-              className="type-label text-on-surface no-underline flex items-center gap-[0.4rem]"
-            >
-              Cart
+            <Link href="/cart" className="text-on-surface no-underline relative flex items-center" aria-label="Cart">
+              <ShoppingBag size={22} strokeWidth={1.5} />
               {count > 0 && (
-                <span className="bg-primary text-on-primary w-[18px] h-[18px] text-[0.65rem] flex items-center justify-center">
+                <span className="absolute -top-[6px] -right-[6px] bg-primary text-on-primary w-[16px] h-[16px] text-[0.6rem] flex items-center justify-center rounded-full">
                   {count}
                 </span>
               )}
@@ -138,13 +136,10 @@ export default function Navbar() {
           {/* Mobile row */}
           <div className="flex md:hidden items-center gap-5">
             {/* Cart */}
-            <Link
-              href="/cart"
-              className="type-label text-on-surface no-underline flex items-center gap-[0.4rem]"
-            >
-              Cart
+            <Link href="/cart" className="text-on-surface no-underline relative flex items-center" aria-label="Cart">
+              <ShoppingBag size={22} strokeWidth={1.5} />
               {count > 0 && (
-                <span className="bg-primary text-on-primary w-[18px] h-[18px] text-[0.65rem] flex items-center justify-center">
+                <span className="absolute -top-[6px] -right-[6px] bg-primary text-on-primary w-[16px] h-[16px] text-[0.6rem] flex items-center justify-center rounded-full">
                   {count}
                 </span>
               )}
