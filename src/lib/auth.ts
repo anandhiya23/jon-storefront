@@ -22,7 +22,45 @@ export const authOptions: NextAuthOptions = {
           scope: 'openid email customer-account-api:full',
         },
       },
-      token: `${AUTH_BASE}/token`,
+      token: {
+        url: `${AUTH_BASE}/token`,
+        async request({ params, checks }) {
+          // Read env directly — avoid module-level init order issues
+          const clientId = process.env.SHOPIFY_CUSTOMER_ACCOUNT_CLIENT_ID!
+          const shopId = process.env.SHOPIFY_SHOP_ID!
+          const tokenUrl = `https://shopify.com/authentication/${shopId}/oauth/token`
+          // next-auth does not include redirect_uri in params — construct it
+          const redirectUri = `${process.env.NEXTAUTH_URL}/api/auth/callback/shopify`
+
+          console.log('[shopify-auth] token request', {
+            tokenUrl,
+            hasClientId: !!clientId,
+            clientIdPrefix: clientId?.slice(0, 8),
+            hasCode: !!params.code,
+            hasCodeVerifier: !!checks.code_verifier,
+            redirectUri,
+          })
+
+          const body = new URLSearchParams({
+            grant_type: 'authorization_code',
+            client_id: clientId,
+            code: params.code!,
+            redirect_uri: redirectUri,
+          })
+          if (checks.code_verifier) {
+            body.set('code_verifier', checks.code_verifier)
+          }
+
+          const res = await fetch(tokenUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body,
+          })
+          const text = await res.text()
+          console.log('[shopify-auth] token response', res.status, text.slice(0, 300))
+          return { tokens: JSON.parse(text) }
+        },
+      },
       userinfo: {
         async request({ tokens }) {
           const res = await fetch(CUSTOMER_API, {
@@ -107,4 +145,5 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: '/auth/login',
   },
+  debug: process.env.NODE_ENV === 'development' || process.env.NEXTAUTH_DEBUG === '1',
 }
