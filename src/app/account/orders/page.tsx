@@ -27,7 +27,7 @@ const STATUS_CLASSES: Record<string, string> = {
 export default async function OrderHistoryPage() {
   const session = await getServerSession(authOptions)
   const data = await customerAccountFetch<{ customer: { orders: { nodes: CAOrder[] } } }>(
-    session!.accessToken,
+    session!.accessToken!,
     GET_CUSTOMER_ORDERS,
   )
   const orders = data.customer.orders.nodes

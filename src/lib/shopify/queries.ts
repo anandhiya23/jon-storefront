@@ -36,6 +36,19 @@ export const GET_PRODUCTS = `
   }
 `
 
+export const GET_COLLECTION_PRODUCTS = `
+  ${PRODUCT_FRAGMENT}
+  query GetCollectionProducts($handle: String!, $first: Int!, $after: String, $sortKey: ProductCollectionSortKeys, $reverse: Boolean) {
+    collectionByHandle(handle: $handle) {
+      title
+      products(first: $first, after: $after, sortKey: $sortKey, reverse: $reverse) {
+        nodes { ...ProductFields }
+        pageInfo { hasNextPage endCursor }
+      }
+    }
+  }
+`
+
 export const GET_PRODUCT_BY_HANDLE = `
   ${PRODUCT_FRAGMENT}
   query GetProduct($handle: String!) {

@@ -95,17 +95,17 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop nav links */}
-          <ul className="hidden md:flex gap-10 list-none m-0 p-0">
+          <ul className="hidden md:flex list-none m-0 p-0 h-16">
             {NAV_ITEMS.map((item) => (
               <li
                 key={item.label}
                 onMouseEnter={() => openMenu(item.label)}
                 onMouseLeave={scheduleClose}
-                className="relative flex items-center"
+                className="relative flex items-center px-5"
               >
                 <Link
                   href={item.href}
-                  className={`type-label text-on-surface no-underline py-2 border-b-2 transition-colors duration-150 ${activeMenu === item.label ? 'border-black' : 'border-transparent'}`}
+                  className={`type-label text-on-surface no-underline border-b-2 transition-colors duration-150 ${activeMenu === item.label ? 'border-black' : 'border-transparent'}`}
                   onClick={closeAll}
                 >
                   {item.label}

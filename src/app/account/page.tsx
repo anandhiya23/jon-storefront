@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 export default async function AccountProfilePage() {
   const session = await getServerSession(authOptions)
   const data = await customerAccountFetch<{ customer: CACustomer }>(
-    session!.accessToken,
+    session!.accessToken!,
     GET_CUSTOMER_PROFILE,
   )
   const customer = data.customer

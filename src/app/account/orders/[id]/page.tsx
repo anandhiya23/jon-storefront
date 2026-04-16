@@ -39,7 +39,7 @@ export default async function OrderDetailPage({ params }: Props) {
   const session = await getServerSession(authOptions)
 
   const data = await customerAccountFetch<{ order: CAOrder | null }>(
-    session!.accessToken,
+    session!.accessToken!,
     GET_CUSTOMER_ORDER,
     { id: paramToOrderGid(id) },
   ).catch(() => ({ order: null }))
