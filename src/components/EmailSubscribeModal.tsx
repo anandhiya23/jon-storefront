@@ -30,6 +30,7 @@ export default function EmailSubscribeModal() {
             src="/runningwoman.png"
             alt=""
             fill
+            sizes="410px"
             className="object-cover"
           />
           {/* Gradient overlay */}

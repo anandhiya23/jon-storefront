@@ -89,71 +89,65 @@ export default function Navbar() {
       <header
         className={`sticky top-0 z-50 bg-white/90 backdrop-blur-2xl ${activeMenu ? '' : 'border-b border-[rgba(198,198,198,0.2)]'}`}
       >
-        <nav className="max-w-[1440px] mx-auto px-8 h-16 flex items-center justify-between">
-          {/* Wordmark */}
-          <Link href="/" className="no-underline flex items-center" onClick={closeAll}>
-            <Image src="/JON Black.png" alt="JON" width={80} height={32} priority className="object-contain" />
-          </Link>
-
-          {/* Desktop nav links */}
-          <ul className="hidden md:flex list-none m-0 p-0 h-16">
-            {NAV_ITEMS.map((item) => (
-              <li
-                key={item.label}
-                onMouseEnter={() => openMenu(item.label)}
-                onMouseLeave={scheduleClose}
-                className="relative flex items-center px-5"
-              >
-                <Link
-                  href={item.href}
-                  className={`type-label text-on-surface no-underline border-b-2 transition-colors duration-150 ${activeMenu === item.label ? 'border-black' : 'border-transparent'}`}
-                  onClick={closeAll}
+        <nav className="max-w-[1440px] mx-auto px-8 h-16 grid grid-cols-3 items-center">
+          {/* Left */}
+          <div className="flex items-center">
+            {/* Desktop nav links */}
+            <ul className="hidden md:flex list-none m-0 p-0 h-16">
+              {NAV_ITEMS.map((item) => (
+                <li
+                  key={item.label}
+                  onMouseEnter={() => openMenu(item.label)}
+                  onMouseLeave={scheduleClose}
+                  className="relative flex items-center px-5"
                 >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-
-          {/* Desktop actions */}
-          <div className="hidden md:flex items-center gap-6">
-            <Link
-              href={session ? '/account' : '/auth/login'}
-              className="type-label text-on-surface no-underline"
-            >
-              {session ? 'Account' : 'Login'}
-            </Link>
-            <Link href="/cart" className="text-on-surface no-underline relative flex items-center" aria-label="Cart">
-              <ShoppingBag size={22} strokeWidth={1.5} />
-              {count > 0 && (
-                <span className="absolute -top-[6px] -right-[6px] bg-primary text-on-primary w-[16px] h-[16px] text-[0.6rem] flex items-center justify-center rounded-full">
-                  {count}
-                </span>
-              )}
-            </Link>
-          </div>
-
-          {/* Mobile row */}
-          <div className="flex md:hidden items-center gap-5">
-            {/* Cart */}
-            <Link href="/cart" className="text-on-surface no-underline relative flex items-center" aria-label="Cart">
-              <ShoppingBag size={22} strokeWidth={1.5} />
-              {count > 0 && (
-                <span className="absolute -top-[6px] -right-[6px] bg-primary text-on-primary w-[16px] h-[16px] text-[0.6rem] flex items-center justify-center rounded-full">
-                  {count}
-                </span>
-              )}
-            </Link>
-            {/* Hamburger */}
+                  <Link
+                    href={item.href}
+                    className={`type-label text-on-surface no-underline border-b-2 transition-colors duration-150 ${activeMenu === item.label ? 'border-black' : 'border-transparent'}`}
+                    onClick={closeAll}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            {/* Mobile hamburger */}
             <button
               onClick={() => setMobileOpen(true)}
               aria-label="Open menu"
-              className="bg-transparent border-none cursor-pointer p-1 flex flex-col gap-[5px]"
+              className="md:hidden bg-transparent border-none cursor-pointer p-1 flex flex-col gap-[5px]"
             >
               <span className="block w-[22px] h-[2px] bg-primary" />
               <span className="block w-[22px] h-[2px] bg-primary" />
               <span className="block w-[14px] h-[2px] bg-primary" />
             </button>
+          </div>
+
+          {/* Center — Wordmark */}
+          <div className="flex justify-center">
+            <Link href="/" className="no-underline flex items-center" onClick={closeAll}>
+              <Image src="/JON Black.png" alt="JON" width={80} height={32} priority className="object-contain" />
+            </Link>
+          </div>
+
+          {/* Right */}
+          <div className="flex items-center gap-5 justify-end">
+            {/* Desktop: account link */}
+            <Link
+              href={session ? '/account' : '/auth/login'}
+              className="hidden md:block type-label text-on-surface no-underline"
+            >
+              {session ? 'Account' : 'Login'}
+            </Link>
+            {/* Cart (desktop + mobile) */}
+            <Link href="/cart" className="text-on-surface no-underline relative flex items-center" aria-label="Cart">
+              <ShoppingBag size={22} strokeWidth={1.5} />
+              {count > 0 && (
+                <span className="absolute -top-[6px] -right-[6px] bg-primary text-on-primary w-[16px] h-[16px] text-[0.6rem] flex items-center justify-center rounded-full">
+                  {count}
+                </span>
+              )}
+            </Link>
           </div>
         </nav>
 
@@ -174,7 +168,7 @@ export default function Navbar() {
                       <div
                         className="group relative aspect-[3/4] overflow-hidden bg-surface-high"
                       >
-                        <Image src={cat.image} alt={cat.label} fill className="object-cover transition-transform duration-[400ms] ease-out group-hover:scale-[1.04]" />
+                        <Image src={cat.image} alt={cat.label} fill sizes="(max-width: 1440px) 25vw, 360px" className="object-cover transition-transform duration-[400ms] ease-out group-hover:scale-[1.04]" />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/65 to-transparent" />
                         <div className="absolute bottom-0 left-0 p-5">
                           <p className="type-headline text-white text-[1.1rem] m-0 mb-[0.2rem]">{cat.label}</p>
@@ -215,6 +209,7 @@ export default function Navbar() {
                       src={activeItem.label === 'Sale' ? '/mocks/apparel-3.png' : '/mocks/apparel-1.png'}
                       alt=""
                       fill
+                      sizes="(max-width: 1440px) 33vw, 480px"
                       className="object-cover"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/55 to-transparent" />

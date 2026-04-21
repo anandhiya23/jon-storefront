@@ -26,6 +26,7 @@ export default function CategoryGrid() {
               src={cat.image}
               alt={cat.label}
               fill
+              sizes="(max-width: 768px) 50vw, 25vw"
               className="object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />

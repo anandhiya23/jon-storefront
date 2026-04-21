@@ -96,7 +96,7 @@ export default async function OrderDetailPage({ params }: Props) {
             <div key={i} className="flex gap-6 items-center">
               <div className="w-16 h-16 bg-surface-high shrink-0 relative overflow-hidden">
                 {item.image && (
-                  <Image src={item.image.url} alt={item.image.altText ?? item.title} fill className="object-cover" />
+                  <Image src={item.image.url} alt={item.image.altText ?? item.title} fill sizes="64px" className="object-cover" />
                 )}
               </div>
               <div className="flex-1">

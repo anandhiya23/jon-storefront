@@ -16,16 +16,16 @@ export default function ProductCard({ product }: Props) {
       href={`/products/${product.handle}`}
       className="block no-underline text-inherit"
     >
-      <article className="bg-white overflow-hidden cursor-pointer transition-transform duration-200 hover:-translate-y-0.5">
+      <article className="bg-white overflow-hidden cursor-pointer">
         {/* Image */}
-        <div className="relative aspect-[3/4] bg-surface-low overflow-hidden">
+        <div className="relative aspect-[3/4] bg-surface-low overflow-hidden group">
           {image ? (
             <Image
               src={image.url}
               alt={image.altText ?? product.title}
               fill
               sizes="(max-width: 768px) 50vw, 25vw"
-              className="object-cover"
+              className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.08]"
             />
           ) : (
             <div className="w-full h-full bg-surface-high" />

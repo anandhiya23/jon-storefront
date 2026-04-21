@@ -12,6 +12,7 @@ export default function LoginPage() {
           src="/manrunning.png"
           alt=""
           fill
+          sizes="50vw"
           className="object-cover"
           priority
         />
