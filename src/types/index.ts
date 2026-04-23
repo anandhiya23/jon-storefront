@@ -75,6 +75,18 @@ export interface ShippingAddress {
   phone: string | null
 }
 
+export interface BlogArticle {
+  id: string
+  handle: string
+  title: string
+  excerpt: string | null
+  publishedAt: string
+  image: { url: string; altText: string | null; width: number; height: number } | null
+  author: { name: string }
+  blog: { handle: string }
+  contentHtml: string
+}
+
 export interface Customer {
   id: string
   firstName: string

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import ContactForm from './ContactForm'
 
 export const metadata: Metadata = {
   title: 'Contact & Support',
@@ -49,7 +50,14 @@ export default function SupportPage() {
             </div>
             <div>
               <p className="type-label text-outline mb-[0.4rem]">WhatsApp</p>
-              <p className="font-semibold m-0">+62 811 892 313</p>
+              <a
+                href="https://wa.me/62811892313"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-on-surface no-underline hover:underline"
+              >
+                +62 811 892 313
+              </a>
               <p className="text-[0.8125rem] text-on-surface-variant mt-1">
                 Mon – Sat, 09:00 – 18:00 WIB
               </p>
@@ -79,56 +87,7 @@ export default function SupportPage() {
         {/* Right — Contact form */}
         <div>
           <p className="type-label mb-10">Send a Message</p>
-          <form className="flex flex-col gap-8">
-            <div>
-              <label className="type-label block text-on-surface-variant mb-2">
-                Subject
-              </label>
-              <select className="input-line cursor-pointer">
-                <option value="">Select a topic</option>
-                <option value="order">Order Inquiry</option>
-                <option value="returns">Returns & Exchanges</option>
-                <option value="general">General</option>
-                <option value="press">Press & Collaboration</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="type-label block text-on-surface-variant mb-2">
-                Full Name
-              </label>
-              <input className="input-line" placeholder="Your name" required />
-            </div>
-
-            <div>
-              <label className="type-label block text-on-surface-variant mb-2">
-                Email Address
-              </label>
-              <input className="input-line" type="email" placeholder="your@email.com" required />
-            </div>
-
-            <div>
-              <label className="type-label block text-on-surface-variant mb-2">
-                Order Code <span className="text-outline font-normal">(optional)</span>
-              </label>
-              <input className="input-line" placeholder="JON-2025-00042" />
-            </div>
-
-            <div>
-              <label className="type-label block text-on-surface-variant mb-2">
-                Message
-              </label>
-              <textarea
-                className="input-line resize-y"
-                placeholder="Tell us how we can help..."
-                rows={5}
-              />
-            </div>
-
-            <button type="submit" className="btn-primary w-full mt-2">
-              Send Message
-            </button>
-          </form>
+          <ContactForm />
         </div>
       </div>
     </div>

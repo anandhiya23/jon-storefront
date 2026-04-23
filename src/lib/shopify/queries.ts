@@ -129,6 +129,44 @@ export const UPDATE_CART_LINES = `
   }
 `
 
+export const GET_BLOG_ARTICLES = `
+  query GetBlogArticles($handle: String!, $first: Int!) {
+    blog(handle: $handle) {
+      articles(first: $first, sortKey: PUBLISHED_AT, reverse: true) {
+        nodes {
+          id
+          handle
+          title
+          excerpt
+          publishedAt
+          image { url altText width height }
+          author { name }
+          blog { handle }
+          contentHtml
+        }
+      }
+    }
+  }
+`
+
+export const GET_ARTICLE_BY_HANDLE = `
+  query GetArticleByHandle($blogHandle: String!, $articleHandle: String!) {
+    blog(handle: $blogHandle) {
+      articleByHandle(handle: $articleHandle) {
+        id
+        handle
+        title
+        excerpt
+        publishedAt
+        image { url altText width height }
+        author { name }
+        blog { handle }
+        contentHtml
+      }
+    }
+  }
+`
+
 export const CUSTOMER_LOGIN = `
   mutation CustomerLogin($input: CustomerAccessTokenCreateInput!) {
     customerAccessTokenCreate(input: $input) {

@@ -7,6 +7,8 @@ export default function EmailSubscribeModal() {
   const [visible, setVisible] = useState(false)
   const [email, setEmail] = useState('')
   const [submitted, setSubmitted] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [pending, setPending] = useState(false)
 
   useEffect(() => {
     const t = setTimeout(() => setVisible(true), 1800)
@@ -91,9 +93,24 @@ export default function EmailSubscribeModal() {
               </p>
 
               <form
-                onSubmit={(e) => {
+                onSubmit={async (e) => {
                   e.preventDefault()
-                  setSubmitted(true)
+                  setError(null)
+                  setPending(true)
+                  try {
+                    const res = await fetch('/api/subscribe', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ email }),
+                    })
+                    const data = await res.json()
+                    if (!res.ok) setError(data.error ?? 'Something went wrong.')
+                    else setSubmitted(true)
+                  } catch {
+                    setError('Network error. Please try again.')
+                  } finally {
+                    setPending(false)
+                  }
                 }}
                 className="flex flex-col gap-7"
               >
@@ -105,8 +122,9 @@ export default function EmailSubscribeModal() {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                 />
-                <button type="submit" className="btn-primary w-full">
-                  Subscribe
+                {error && <p className="text-sm text-red-600 -mt-3">{error}</p>}
+                <button type="submit" disabled={pending} className="btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed">
+                  {pending ? 'Subscribing…' : 'Subscribe'}
                 </button>
               </form>
 

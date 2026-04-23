@@ -4,10 +4,9 @@ import CategoryGrid from '@/components/product/CategoryGrid'
 import ProductCard from '@/components/product/ProductCard'
 import EmailSubscribeModal from '@/components/EmailSubscribeModal'
 import { storefrontFetch } from '@/lib/shopify/client'
-import { GET_PRODUCTS } from '@/lib/shopify/queries'
-import type { Product } from '@/types'
+import { GET_PRODUCTS, GET_BLOG_ARTICLES } from '@/lib/shopify/queries'
+import type { Product, BlogArticle } from '@/types'
 
-const HERO_VIDEO_ID = 'Bcpu-jqAL6w'
 
 export const metadata: Metadata = {
   title: 'JON — Just One Nation',
@@ -15,11 +14,18 @@ export const metadata: Metadata = {
 }
 
 export default async function HomePage() {
-  const data = await storefrontFetch<{ products: { nodes: Product[] } }>(
-    GET_PRODUCTS,
-    { first: 4, sortKey: 'CREATED_AT', reverse: true },
-  )
-  const products = data.products.nodes
+  const [productData, blogData] = await Promise.all([
+    storefrontFetch<{ products: { nodes: Product[] } }>(
+      GET_PRODUCTS,
+      { first: 4, sortKey: 'CREATED_AT', reverse: true },
+    ),
+    storefrontFetch<{ blog: { articles: { nodes: BlogArticle[] } } | null }>(
+      GET_BLOG_ARTICLES,
+      { handle: 'news', first: 3 },
+    ),
+  ])
+  const products = productData.products.nodes
+  const articles = blogData.blog?.articles.nodes ?? []
 
   return (
     <>
@@ -29,11 +35,13 @@ export default async function HomePage() {
       <section className="relative h-[calc(100vh-64px)] bg-black flex flex-col items-start justify-end overflow-hidden px-20 py-20 max-md:px-10 max-sm:px-6 max-sm:py-12">
         {/* Background video */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <iframe
-            src={`https://www.youtube-nocookie.com/embed/${HERO_VIDEO_ID}?autoplay=1&mute=1&loop=1&playlist=${HERO_VIDEO_ID}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&disablekb=1`}
-            allow="autoplay; encrypted-media"
-            className="absolute top-1/2 left-1/2 w-screen h-[56.25vw] min-h-full min-w-[177.78vh] -translate-x-1/2 -translate-y-1/2 border-none opacity-65"
-            title="JON Campaign"
+          <video
+            src="https://0fbb86-09.myshopify.com/cdn/shop/videos/c/vp/080305df92164f1e958de5f36ccb1e29/080305df92164f1e958de5f36ccb1e29.HD-1080p-7.2Mbps-64107924.mp4?v=0"
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute top-1/2 left-1/2 w-screen h-[56.25vw] min-h-full min-w-[177.78vh] -translate-x-1/2 -translate-y-1/2 object-cover opacity-65"
           />
         </div>
         {/* Dark overlay */}
@@ -52,12 +60,7 @@ export default async function HomePage() {
             <Link href="/products" className="btn-primary">
               Shop Now
             </Link>
-            <Link
-              href="/products?collection=new"
-              className="btn-secondary border-on-primary text-on-primary"
-            >
-              New Arrivals
-            </Link>
+
           </div>
         </div>
       </section>
@@ -102,6 +105,51 @@ export default async function HomePage() {
           Explore All
         </Link>
       </section>
+
+      {/* Blog */}
+      {articles.length > 0 && (
+        <section className="py-24 px-20 bg-surface max-md:px-10 max-sm:px-6">
+          <div className="flex justify-between items-baseline mb-12">
+            <h2 className="type-headline">Journal</h2>
+            <Link
+              href="/blog"
+              className="type-label text-on-surface no-underline border-b-2 border-black pb-[2px]"
+            >
+              View All
+            </Link>
+          </div>
+          <div className="grid grid-cols-3 gap-8 max-md:grid-cols-1">
+            {articles.map((article) => (
+              <Link
+                key={article.id}
+                href={`/blog/${article.handle}`}
+                className="group no-underline"
+              >
+                {article.image && (
+                  <div className="aspect-[4/3] overflow-hidden mb-5 bg-surface-low">
+                    <img
+                      src={article.image.url}
+                      alt={article.image.altText ?? article.title}
+                      width={article.image.width}
+                      height={article.image.height}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                )}
+                <p className="type-label text-outline mb-2">
+                  {new Date(article.publishedAt).toLocaleDateString('en-ID', {
+                    year: 'numeric', month: 'long', day: 'numeric',
+                  })}
+                </p>
+                <h3 className="type-title text-on-surface mb-3 group-hover:underline">{article.title}</h3>
+                {article.excerpt && (
+                  <p className="text-on-surface-variant text-sm leading-relaxed line-clamp-3 m-0">{article.excerpt}</p>
+                )}
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Trust bar */}
       <section className="py-16 px-20 bg-surface grid grid-cols-3 gap-8 text-center max-md:grid-cols-1 max-md:text-left max-md:px-10 max-sm:px-6">
