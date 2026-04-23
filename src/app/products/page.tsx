@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import ProductCard from '@/components/product/ProductCard'
 import SortSelect from '@/components/product/SortSelect'
+import LoadMoreProducts from '@/components/product/LoadMoreProducts'
 import { storefrontFetch } from '@/lib/shopify/client'
 import { GET_PRODUCTS, GET_COLLECTION_PRODUCTS } from '@/lib/shopify/queries'
 import type { Product } from '@/types'
@@ -61,6 +62,7 @@ export default async function ProductListingPage({ searchParams }: Props) {
 
   let products: Product[] = []
   let hasNextPage = false
+  let endCursor: string | null = null
   let collectionTitle: string | null = null
 
   if (collection) {
@@ -75,6 +77,7 @@ export default async function ProductListingPage({ searchParams }: Props) {
     const col = data.collectionByHandle
     products = col?.products.nodes ?? []
     hasNextPage = col?.products.pageInfo.hasNextPage ?? false
+    endCursor = col?.products.pageInfo.endCursor ?? null
     collectionTitle = col?.title ?? collection
   } else {
     // General product listing with optional search query
@@ -87,6 +90,7 @@ export default async function ProductListingPage({ searchParams }: Props) {
     })
     products = data.products.nodes
     hasNextPage = data.products.pageInfo.hasNextPage
+    endCursor = data.products.pageInfo.endCursor
   }
 
   const heading = q ? `"${q}"` : collectionTitle ?? 'Shop'
@@ -119,11 +123,13 @@ export default async function ProductListingPage({ searchParams }: Props) {
       )}
 
       {/* Load more */}
-      {hasNextPage && (
-        <div className="text-center mt-16">
-          <button className="btn-secondary min-w-[200px]">Load More</button>
-        </div>
-      )}
+      <LoadMoreProducts
+        initialCursor={endCursor}
+        initialHasNextPage={hasNextPage}
+        collection={collection}
+        sort={sort}
+        query={q}
+      />
     </div>
   )
 }

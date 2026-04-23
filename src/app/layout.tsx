@@ -6,6 +6,8 @@ import Footer from '@/components/layout/Footer'
 import CartHydrator from '@/components/cart/CartHydrator'
 import Providers from '@/components/Providers'
 
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://jonperformance.id'
+
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-sans',
@@ -21,6 +23,7 @@ export const metadata: Metadata = {
   openGraph: {
     siteName: 'JON — Just One Nation',
     type: 'website',
+    images: [{ url: `${BASE_URL}/runningwoman.png`, alt: 'JON — Just One Nation' }],
   },
   robots: {
     index: true,
